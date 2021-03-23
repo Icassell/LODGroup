@@ -1,10 +1,11 @@
 using UnityEngine;
 using Chess.LODGroupIJob.Streaming;
+
 namespace Chess.LODGroupIJob
 {
     public static class StreamingLOD
     {
-        //Õý³£Ä£Ê½Ö»ÓÐÏÔÊ¾ºÍÒþ²Ø
+        //æ­£å¸¸æ¨¡å¼åªæœ‰æ˜¾ç¤ºå’Œéšè—
         public static void SetState(bool active, LOD lod, LODGroup lodGroup, float distance, CameraType type)
         {
             switch (lod.CurrentState)
@@ -15,37 +16,43 @@ namespace Chess.LODGroupIJob
                     {
                         LoadAsset(lod, lodGroup, distance, type);
                     }
+
                     break;
                 case State.Loading:
                     if (active == false)
                     {
                         UnLoaded(lod);
                     }
+
                     break;
                 case State.Loaded:
-                    if(active == false)
+                    if (active == false)
                     {
                         UnLoaded(lod);
                     }
-                    else if(lod.LastState == State.Loading)
+                    else if (lod.LastState == State.Loading)
                     {
                         return;
                     }
+
                     break;
             }
+
             lod.LastState = lod.CurrentState;
         }
+
         private static void LoadAsset(LOD lod, LODGroup lodGroup, float distance, CameraType type)
         {
             var handle = AssetLoadManager.Instance.LoadAsset(lod, lod.Address, lod.Priority, distance);
             lod.Handle = handle;
             handle.Completed += h =>
             {
-                if(lod.CurrentState != State.Loading)
+                if (lod.CurrentState != State.Loading)
                 {
                     AssetLoadManager.Instance.UnloadAsset(h);
                     return;
                 }
+
                 if (h.Status == AsyncOperationStatus.Failed)
                 {
                     Debug.LogError("Failed to load asset: " + lod.Address);
@@ -53,13 +60,12 @@ namespace Chess.LODGroupIJob
                     return;
                 }
 
-              
+
                 GameObject gameObject = GameObject.Instantiate(h.Result, lodGroup.transform, false);
                 h.Result = gameObject;
                 gameObject.transform.parent = lodGroup.transform;
                 h.Controller.CurrentState = State.Loaded;
                 lodGroup.OnDisableAllLOD(type);
-
             };
             lod.CurrentState = State.Loading;
         }
@@ -67,7 +73,7 @@ namespace Chess.LODGroupIJob
         public static void UnLoaded(LOD lod)
         {
 #if UNITY_EDITOR
-            if(!Application.isPlaying)
+            if (!Application.isPlaying)
                 GameObject.DestroyImmediate(lod.Handle.Result);
             else
                 GameObject.Destroy(lod.Handle.Result);

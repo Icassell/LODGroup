@@ -1,6 +1,7 @@
 using Chess.LODGroupIJob.Utils;
 using UnityEditor;
 using UnityEngine;
+
 namespace Chess.LODGroupIJob.Config
 {
     public class ConfigWindow : EditorWindow
@@ -9,33 +10,35 @@ namespace Chess.LODGroupIJob.Config
         public static void Init()
         {
             Rect wr = new Rect(0, 0, 200, 80);
-            var windows = (ConfigWindow)EditorWindow.GetWindowWithRect(typeof(ConfigWindow), wr, true, "LODGroupConfig");
+            var windows = (ConfigWindow) EditorWindow.GetWindowWithRect(typeof(ConfigWindow), wr, true, "LODGroupConfig");
             windows.Show();
         }
+
         private void OnGUI()
         {
             var config = SystemConfig.Instance.Config;
-            config.asynLoadNum = EditorGUILayout.IntField("Í¬Ê±Òì²½¼ÓÔØÊıÁ¿", config.asynLoadNum);
-            config.cullInterval = EditorGUILayout.FloatField("¼ä¸ôÊ±ÏÂ¼ÆËãÆÁÕ¼±È", config.cullInterval);
+            config.asynLoadNum = EditorGUILayout.IntField("åŒæ—¶å¼‚æ­¥åŠ è½½æ•°é‡", config.asynLoadNum);
+            config.cullInterval = EditorGUILayout.FloatField("é—´éš”æ—¶ä¸‹è®¡ç®—å±å æ¯”", config.cullInterval);
             EditorGUI.BeginChangeCheck();
-            config.editorStream = EditorGUILayout.Toggle("±à¼­Æ÷ÏÂÆô¶¯Á÷Ê½¼ÓÔØ", config.editorStream);
-            if(EditorGUI.EndChangeCheck())
+            config.editorStream = EditorGUILayout.Toggle("ç¼–è¾‘å™¨ä¸‹å¯åŠ¨æµå¼åŠ è½½", config.editorStream);
+            if (EditorGUI.EndChangeCheck())
             {
                 if (config.editorStream)
                     return;
 
-                //¹Ø±Õ±à¼­Æ÷ÏÂÁ÷Ê½£¬½«Á÷Ê½¼ÓÔØµÄ×ÊÔ´È«²¿É¾³ı
+                //å…³é—­ç¼–è¾‘å™¨ä¸‹æµå¼ï¼Œå°†æµå¼åŠ è½½çš„èµ„æºå…¨éƒ¨åˆ é™¤
                 var lodGroups = GameObject.FindObjectsOfType<LODGroup>();
                 if (lodGroups == null)
                     return;
-                foreach(var g in lodGroups)
+                foreach (var g in lodGroups)
                 {
-                    foreach(var lod in g.GetLODs())
+                    foreach (var lod in g.GetLODs())
                     {
-                        if(lod.Handle != null && lod.Handle.Result != null)
+                        if (lod.Handle != null && lod.Handle.Result != null)
                             GameObject.DestroyImmediate(lod.Handle.Result);
                     }
                 }
+
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }

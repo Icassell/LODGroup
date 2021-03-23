@@ -2,7 +2,7 @@ namespace Chess.LODGroupIJob
 {
     public static class NormalLOD
     {
-        //Õı³£Ä£Ê½Ö»ÓĞÏÔÊ¾ºÍÒş²Ø
+        //æ­£å¸¸æ¨¡å¼åªæœ‰æ˜¾ç¤ºå’Œéšè—
         public static void SetState(bool active, LOD lod, LODGroup lodGroup)
         {
             switch (lod.CurrentState)
@@ -14,25 +14,29 @@ namespace Chess.LODGroupIJob
                         ChangeRendererState(active, lod);
                         lodGroup.OnDisableAllLOD();
                     }
+
                     break;
                 case State.Loaded:
                     if (active == false)
                     {
                         ChangeRendererState(active, lod);
                     }
+
                     break;
             }
         }
+
         public static void ChangeRendererState(bool state, LOD lod)
         {
             if (lod.Renderers == null)
                 return;
 
-            foreach(var rd in lod.Renderers)
+            foreach (var rd in lod.Renderers)
             {
-                if(rd != null)
+                if (rd != null)
                     rd.enabled = state;
             }
+
             lod.CurrentState = state == true ? State.Loaded : State.UnLoaded;
         }
     }

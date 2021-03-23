@@ -9,6 +9,7 @@ namespace Chess.LODGroupIJob
         {
             return DrawHeader(new GUIContent(title), ref searchString, searchWidth, center);
         }
+
         protected Rect DrawHeader(GUIContent title, ref string searchString, float searchWidth, bool center)
         {
             Rect headerRect = EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
@@ -22,6 +23,7 @@ namespace Chess.LODGroupIJob
             {
                 GUILayout.FlexibleSpace();
             }
+
             GUILayout.Label(title, headerStyle);
             if (searchString != null)
             {
@@ -34,6 +36,7 @@ namespace Chess.LODGroupIJob
                     GUI.FocusControl(null);
                 }
             }
+
             GUILayout.FlexibleSpace();
             EditorGUILayout.EndHorizontal();
             return headerRect;

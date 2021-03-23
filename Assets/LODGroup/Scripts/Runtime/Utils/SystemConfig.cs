@@ -2,23 +2,26 @@ using System.IO;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 namespace Chess.LODGroupIJob.Utils
 {
     public class Config : ScriptableObject
     {
-        //Á÷Ê½¼ÓÔØ¿ÉÍ¬Ê±½øÈëÒì²½¼ÓÔØµÄ×ÊÔ´ÊıÁ¿
+        //æµå¼åŠ è½½å¯åŒæ—¶è¿›å…¥å¼‚æ­¥åŠ è½½çš„èµ„æºæ•°é‡
         public int asynLoadNum = 4;
 
-        //¼ä¸ô¼ÆËãÆÁÕ¼±È
+        //é—´éš”è®¡ç®—å±å æ¯”
         public float cullInterval = 0.1f;
 
-        //ÊÇ·ñÔÚ±à¼­Æ÷Ä£Ê½GameÊÓÍ¼ÏÂÆô¶¯Á÷Ê½¼ÓÔØ
+        //æ˜¯å¦åœ¨ç¼–è¾‘å™¨æ¨¡å¼Gameè§†å›¾ä¸‹å¯åŠ¨æµå¼åŠ è½½
         public bool editorStream = false;
     }
+
     public class SystemConfig
     {
         static SystemConfig _Instance;
+
         public static SystemConfig Instance
         {
             get
@@ -27,12 +30,15 @@ namespace Chess.LODGroupIJob.Utils
                 {
                     _Instance = new SystemConfig();
                 }
+
                 return _Instance;
             }
         }
+
         Config m_Config;
         static string s_ConfigAdress = "Config/";
         static string s_Name = "chess";
+
         public void RefreshConfig()
         {
             m_Config = Resources.Load<Config>(s_ConfigAdress + s_Name);
@@ -43,6 +49,7 @@ namespace Chess.LODGroupIJob.Utils
                 SaveUniqueConfigAsset(m_Config);
             }
         }
+
         public Config Config
         {
             get
@@ -51,6 +58,7 @@ namespace Chess.LODGroupIJob.Utils
                 {
                     RefreshConfig();
                 }
+
                 return m_Config;
             }
             set

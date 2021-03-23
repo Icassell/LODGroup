@@ -6,13 +6,13 @@ namespace Chess.LODGroupIJob.SpaceManager
     {
         //bounds的值已经是世界坐标的了，camPosition也是世界坐标
         public static Vector2 SettingCameraJob
-                        (bool orthographic,
-                        float orthographicSize, 
-                        float fieldOfView,
-                        float lodBias,
-                        Bounds bounds,
-                        Vector3 camPosition
-                        )
+        (bool orthographic,
+            float orthographicSize,
+            float fieldOfView,
+            float lodBias,
+            Bounds bounds,
+            Vector3 camPosition
+        )
         {
             Vector2 result;
             float preRelative;
@@ -25,11 +25,13 @@ namespace Chess.LODGroupIJob.SpaceManager
                 float halfAngle = Mathf.Tan(Mathf.Deg2Rad * fieldOfView * 0.5F);
                 preRelative = 0.5f / halfAngle;
             }
+
             preRelative = preRelative * lodBias;
             result.y = GetDistance(bounds.center, camPosition);
             result.x = bounds.size * preRelative / result.y;
             return result;
         }
+
         public static void SettingCamera(Transform lodTransform, Camera cam, out float preRelative)
         {
             if (cam.orthographic)
@@ -41,6 +43,7 @@ namespace Chess.LODGroupIJob.SpaceManager
                 float halfAngle = Mathf.Tan(Mathf.Deg2Rad * cam.fieldOfView * 0.5F);
                 preRelative = 0.5f / halfAngle;
             }
+
             preRelative = preRelative * QualitySettings.lodBias;
         }
 
@@ -68,13 +71,14 @@ namespace Chess.LODGroupIJob.SpaceManager
                 float halfAngle = Mathf.Tan(Mathf.Deg2Rad * (90 - cam.fieldOfView * 0.5F));
                 preRelative = 0.5f * halfAngle;
             }
+
             preRelative = preRelative * QualitySettings.lodBias;
         }
+
         public static float GetReDistance(Bounds bounds, float preRelative, float relativeHeight)
         {
             float distance = bounds.size * preRelative / relativeHeight;
             return distance;
         }
     }
-
 }

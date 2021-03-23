@@ -14,55 +14,94 @@ namespace Chess.LODGroupIJob
         Failed
     }
 
-    //²»Ê¹ÓÃ¼Ì³ĞÔ­Òò³éÏóÀàÎŞ·¨ĞòÁĞ»¯£¬¶øScriptableObject»áÔÚ¿½±´µÄÊ±ºòÒıÓÃ²»±äÂé·³
+    //ä¸ä½¿ç”¨ç»§æ‰¿åŸå› æŠ½è±¡ç±»æ— æ³•åºåˆ—åŒ–ï¼Œè€ŒScriptableObjectä¼šåœ¨æ‹·è´çš„æ—¶å€™å¼•ç”¨ä¸å˜éº»çƒ¦
     [Serializable]
     public sealed class LOD
     {
-        //ÔÚÆÁÄ»ÉÏÕ¼±È¸ß¶È[0-1]
-        [SerializeField]
-        private float screenRelativeTransitionHeight;
-        //µ±Ç°¹ÜÀíµÄRenderer
-        [SerializeField]
-        public Renderer[] m_Renderers;
-        //µ±Ç°×´Ì¬
-        [SerializeField]
-        private State m_CurrentState;
-        //ÉÏÒ»Ö¡×´Ì¬
-        [SerializeField]
-        private State m_LastState;
-        #region Á÷Ê½¼ÓÔØ
-        //ÊÇ·ñÁ÷Ê½
+        //åœ¨å±å¹•ä¸Šå æ¯”é«˜åº¦[0-1]
+        [SerializeField] private float screenRelativeTransitionHeight;
 
-        [SerializeField]
-        private bool m_Streaming;
-        [SerializeField]
-        private string address;
-        [SerializeField]
-        private int priority;
-        [SerializeField]
-        private Handle handle;
+        //å½“å‰ç®¡ç†çš„Renderer
+        [SerializeField] public Renderer[] m_Renderers;
+
+        //å½“å‰çŠ¶æ€
+        [SerializeField] private State m_CurrentState;
+
+        //ä¸Šä¸€å¸§çŠ¶æ€
+        [SerializeField] private State m_LastState;
+
+        #region æµå¼åŠ è½½
+
+        //æ˜¯å¦æµå¼
+
+        [SerializeField] private bool m_Streaming;
+        [SerializeField] private string address;
+        [SerializeField] private int priority;
+        [SerializeField] private Handle handle;
+
         #endregion
+
         public LOD(float screenRelative)
         {
             screenRelativeTransitionHeight = screenRelative;
             m_CurrentState = State.None;
         }
-        public Renderer[] Renderers { get => m_Renderers; set => m_Renderers = value; }
-        public State CurrentState { get => m_CurrentState; set => m_CurrentState = value; }
-        public State LastState { get => m_LastState; set => m_LastState = value; }
-        public bool Streaming { get => m_Streaming; set => m_Streaming = value; }
-        public float ScreenRelativeTransitionHeight { get => screenRelativeTransitionHeight; set => screenRelativeTransitionHeight = value; }
-        public string Address { get => address; set => address = value; }
-        public int Priority { get => priority; set => priority = value; }
-        public Handle Handle { get => handle; set => handle = value; }
-        
-        //·µ»Øtrue±íÊ¾¸Õ¼ÓÔØÍê³É£¬·ñÔò·µ»Øfalse
+
+        public Renderer[] Renderers
+        {
+            get => m_Renderers;
+            set => m_Renderers = value;
+        }
+
+        public State CurrentState
+        {
+            get => m_CurrentState;
+            set => m_CurrentState = value;
+        }
+
+        public State LastState
+        {
+            get => m_LastState;
+            set => m_LastState = value;
+        }
+
+        public bool Streaming
+        {
+            get => m_Streaming;
+            set => m_Streaming = value;
+        }
+
+        public float ScreenRelativeTransitionHeight
+        {
+            get => screenRelativeTransitionHeight;
+            set => screenRelativeTransitionHeight = value;
+        }
+
+        public string Address
+        {
+            get => address;
+            set => address = value;
+        }
+
+        public int Priority
+        {
+            get => priority;
+            set => priority = value;
+        }
+
+        public Handle Handle
+        {
+            get => handle;
+            set => handle = value;
+        }
+
+        //è¿”å›trueè¡¨ç¤ºåˆšåŠ è½½å®Œæˆï¼Œå¦åˆ™è¿”å›false
         public void SetState(bool active, LODGroup lodGroup, float distance, CameraType type)
         {
-            if(m_Streaming)
+            if (m_Streaming)
             {
 #if UNITY_EDITOR
-                //±à¼­Æ÷Ä£Ê½ÏÂÆô¶¯ÁËÁ÷Ê½¼ÓÔØÄÇÃ´Ò²ÉúĞ§
+                //ç¼–è¾‘å™¨æ¨¡å¼ä¸‹å¯åŠ¨äº†æµå¼åŠ è½½é‚£ä¹ˆä¹Ÿç”Ÿæ•ˆ
                 if (!Application.isPlaying && (type != CameraType.Game || !SystemConfig.Instance.Config.editorStream))
                 {
                     return;
@@ -73,7 +112,7 @@ namespace Chess.LODGroupIJob
             else
             {
                 NormalLOD.SetState(active, this, lodGroup);
-            } 
+            }
         }
     }
 }

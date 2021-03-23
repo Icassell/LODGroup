@@ -6,22 +6,22 @@ using UnityEngine;
 
 namespace Chess.LODGroupIJob.Slider
 {
-
     #region 框背景
+
     public class LODSlider
     {
         public const int k_SliderBarHeight = 30;
-        
+
         class GUIStyles
         {
             public readonly GUIStyle LODSliderBG = "LODSliderBG";
-            
+
 
             public GUIStyles()
             {
-
             }
         }
+
         private static GUIStyles Styles
         {
             get
@@ -31,28 +31,39 @@ namespace Chess.LODGroupIJob.Slider
                 return s_Styles;
             }
         }
+
         private static GUIStyles s_Styles;
+
         #endregion
 
         private int m_SliderID = typeof(LODSlider).GetHashCode();
 
         //要滑动哪个框
         private int m_SelectedIndex = -1;
+
         //culled框
         private LODSliderRange m_DefaultRange = null;
+
         //所有框
         private List<LODSliderRange> m_RangeList = new List<LODSliderRange>();
 
         LODGroupEditor m_LODGroupEditor;
+
         //相机滑动条
         SlideCursor m_SlideCursor;
 
         //选中了lod显示区域
         private int m_SelectedShowIndex = -1;
-        public int SelectedShowIndex { get => m_SelectedShowIndex; set => m_SelectedShowIndex = value; }
+
+        public int SelectedShowIndex
+        {
+            get => m_SelectedShowIndex;
+            set => m_SelectedShowIndex = value;
+        }
 
         //是否需要刷新包围盒
         private bool m_RefreshBounds;
+
         //被调用将m_RefreshBounds变False;
         public bool RefreshBounds
         {
@@ -64,8 +75,17 @@ namespace Chess.LODGroupIJob.Slider
             }
         }
 
-        public SlideCursor SlideCursor { get => m_SlideCursor; set => m_SlideCursor = value; }
-        public LODGroupEditor LODGroupEditor { get => m_LODGroupEditor; set => m_LODGroupEditor = value; }
+        public SlideCursor SlideCursor
+        {
+            get => m_SlideCursor;
+            set => m_SlideCursor = value;
+        }
+
+        public LODGroupEditor LODGroupEditor
+        {
+            get => m_LODGroupEditor;
+            set => m_LODGroupEditor = value;
+        }
 
         public LODSlider(LODGroupEditor lodGroupEditor, bool useDefault = false, string name = "")
         {
@@ -76,6 +96,7 @@ namespace Chess.LODGroupIJob.Slider
                 defaultRange.Name = name;
                 m_DefaultRange = defaultRange;
             }
+
             m_SlideCursor = new SlideCursor();
         }
 
@@ -103,7 +124,7 @@ namespace Chess.LODGroupIJob.Slider
             m_RangeList.Clear();
         }
 
-       //获得选择哪个框
+        //获得选择哪个框
         int CursorSelectSliderRange(Rect sliderBarPosition, List<LODSliderRange> rangeList)
         {
             Event evt = Event.current;
@@ -115,22 +136,27 @@ namespace Chess.LODGroupIJob.Slider
                 {
                     return i;
                 }
+
                 startPosition = m_RangeList[i].EndPosition;
             }
+
             return -1;
         }
+
         public void Updata(Event curEvent)
         {
             m_SlideCursor.Updata(curEvent);
         }
+
         public void Draw()
         {
             GUILayout.Space(25);
             var sliderBarPosition = GUILayoutUtility.GetRect(0, k_SliderBarHeight, GUILayout.ExpandWidth(true));
-            sliderBarPosition.width -= 5;   //< for margin
+            sliderBarPosition.width -= 5; //< for margin
             Draw(sliderBarPosition);
             GUILayout.Space(15);
         }
+
         public void Draw(Rect sliderBarPosition)
         {
             Event evt = Event.current;
@@ -162,7 +188,8 @@ namespace Chess.LODGroupIJob.Slider
                         evt.Use();
                         m_SelectedIndex = -1;
                         GUIUtility.hotControl = 0;
-                    }       
+                    }
+
                     break;
                 }
                 case EventType.ContextClick:
@@ -178,9 +205,10 @@ namespace Chess.LODGroupIJob.Slider
                     DragUpdatedAndPerform(sliderBarPosition);
                     break;
             }
+
             m_SlideCursor.Draw(sliderBarPosition);
         }
-        
+
         //画选中的框
         void DrawSelectLODRect(Rect sliderBarPosition, int selectIndex)
         {
@@ -190,7 +218,7 @@ namespace Chess.LODGroupIJob.Slider
             float startPosition = selectIndex == 0 ? 1.0f : m_RangeList[selectIndex - 1].EndPosition;
             Rect rect = m_RangeList[selectIndex].GetRect(sliderBarPosition, startPosition);
             EditorGUI.DrawRect(rect, new Color(1, 1, 1, 0.2f));
-            EditorGUI.DrawRect(new Rect(rect.x, rect.y, 2.5f, rect.height), new Color(0.11764f,0.5647f, 1, 1));
+            EditorGUI.DrawRect(new Rect(rect.x, rect.y, 2.5f, rect.height), new Color(0.11764f, 0.5647f, 1, 1));
             EditorGUI.DrawRect(new Rect(rect.x, rect.y, rect.width, 2.5f), new Color(0.11764f, 0.5647f, 1, 1));
             EditorGUI.DrawRect(new Rect(rect.x, rect.y + rect.height - 2.5f, rect.width, 2.5f), new Color(0.11764f, 0.5647f, 1, 1));
             EditorGUI.DrawRect(new Rect(rect.x + rect.width - 2.5f, rect.y, 2.5f, rect.height), new Color(0.11764f, 0.5647f, 1, 1));
@@ -224,6 +252,7 @@ namespace Chess.LODGroupIJob.Slider
             {
                 DrawSelectLODRect(sliderBarPosition, m_SelectedShowIndex);
             }
+
             GUI.changed = true;
         }
 
@@ -247,12 +276,13 @@ namespace Chess.LODGroupIJob.Slider
                     return;
                 }
             }
-            
+
             //如果鼠标不在滑动范围点在slider上那么就选中被点中的LOD
             if (!sliderBarPosition.Contains(evt.mousePosition))
             {
                 return;
             }
+
             int index = CursorSelectSliderRange(sliderBarPosition, m_RangeList);
             SelectedShowIndex = index;
             if (SelectedShowIndex != -1)
@@ -260,6 +290,7 @@ namespace Chess.LODGroupIJob.Slider
                 evt.Use();
             }
         }
+
         //拖拽框框
         void MouseDrag(Rect sliderBarPosition, int sliderId)
         {
@@ -279,8 +310,10 @@ namespace Chess.LODGroupIJob.Slider
                 {
                     m_RangeList[m_SelectedIndex].LOD.ScreenRelativeTransitionHeight = percentage;
                 }
+
                 GUI.changed = true;
             }
+
             if (!m_SlideCursor.Slide)
                 return;
 
@@ -300,24 +333,24 @@ namespace Chess.LODGroupIJob.Slider
                 //不在框内
                 return;
             }
-            
+
             int index = CursorSelectSliderRange(sliderBarPosition, m_RangeList);
             LOD lod = m_RangeList[index].LOD;
             if (lod.Streaming)
                 return;
 
-            SelectedShowIndex = index;//选中
+            SelectedShowIndex = index; //选中
             //松开鼠标，鼠标如果有物体就将物体加入当前LOD并选中
             DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
             if (evt.type == EventType.DragPerform)
             {
                 DragAndDrop.AcceptDrag();
                 GameObject obj;
-                if(DragAndDrop.objectReferences != null && DragAndDrop.objectReferences.Length > 0)
+                if (DragAndDrop.objectReferences != null && DragAndDrop.objectReferences.Length > 0)
                 {
                     obj = DragAndDrop.objectReferences[0] as GameObject;
                     //将新的rederer加入到lod
-                   
+
                     foreach (var renderer in obj.GetComponentsInChildren<Renderer>())
                     {
                         var renderers = new List<Renderer>();
@@ -328,14 +361,15 @@ namespace Chess.LODGroupIJob.Slider
                             renderer.enabled = false;
                             renderers.Add(renderer);
                         }
+
                         lod.Renderers = renderers.ToArray();
                         m_RefreshBounds = true;
                         //EditorUtility.SetDirty(lod as Object);
                         SceneView.lastActiveSceneView.Repaint();
                     }
                 }
-                
             }
+
             evt.Use();
         }
 
@@ -348,6 +382,7 @@ namespace Chess.LODGroupIJob.Slider
                 //不在框内
                 return;
             }
+
             int index = CursorSelectSliderRange(sliderBarPosition, m_RangeList);
             float relative = 0;
             if (index == -1)
@@ -360,7 +395,7 @@ namespace Chess.LODGroupIJob.Slider
             }
 
             GenericMenu menu = new GenericMenu();
-            if(Utils.LODUtils.kLODColors.Length == m_RangeList.Count)
+            if (Utils.LODUtils.kLODColors.Length == m_RangeList.Count)
             {
                 //满了
                 menu.AddItem(new GUIContent("Insert Before"), false, null, null);
@@ -369,9 +404,9 @@ namespace Chess.LODGroupIJob.Slider
             {
                 menu.AddItem(new GUIContent("Insert Before"), false, this.InsertBeforeOnClick, new Vector2(index, relative));
             }
-           
+
             menu.AddSeparator("");
-            if(index == -1 || m_RangeList.Count == 1)
+            if (index == -1 || m_RangeList.Count == 1)
             {
                 //Culled不可删除
                 menu.AddItem(new GUIContent("Delete"), false, null, null);
@@ -380,6 +415,7 @@ namespace Chess.LODGroupIJob.Slider
             {
                 menu.AddItem(new GUIContent("Delete"), false, this.DeleteOnClick, index);
             }
+
             menu.ShowAsContext();
 
             //设置该事件被使用

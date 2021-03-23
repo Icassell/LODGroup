@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Jobs;
 using UnityEngine;
+
 namespace Chess.LODGroupIJob.JobSystem
 {
     public class LODGroupManager
@@ -10,6 +11,7 @@ namespace Chess.LODGroupIJob.JobSystem
         static LODGroupManager _Instance;
         public NativeArray<Bounds> bounds;
         public NativeArray<Vector2> result;
+
         public static LODGroupManager Instance
         {
             get
@@ -21,6 +23,7 @@ namespace Chess.LODGroupIJob.JobSystem
 
                     Camera.onPreCull += _Instance.OnPreCull;
                 }
+
                 return _Instance;
             }
         }
@@ -33,11 +36,12 @@ namespace Chess.LODGroupIJob.JobSystem
         {
             get
             {
-                if(m_MainCamera == null)
+                if (m_MainCamera == null)
                     m_MainCamera = Camera.main;
                 return m_MainCamera;
             }
         }
+
         private class CameraCullData
         {
             public float m_lastCullTime = -1;
@@ -52,6 +56,7 @@ namespace Chess.LODGroupIJob.JobSystem
         {
             return m_AllLODGroup.ContainsKey(hashCodeId);
         }
+
         public void SetLODGroup(LODGroupBase lodGroup)
         {
             int hashCode = lodGroup.GetHashCode();
@@ -60,6 +65,7 @@ namespace Chess.LODGroupIJob.JobSystem
                 m_AllLODGroup.Add(hashCode, lodGroup as LODGroup);
             }
         }
+
         public bool RemoveLODGroup(LODGroupBase lodGroup)
         {
             int hashCode = lodGroup.GetHashCode();
@@ -67,16 +73,18 @@ namespace Chess.LODGroupIJob.JobSystem
         }
 
         static Unity.Profiling.ProfilerMarker p = new Unity.Profiling.ProfilerMarker("LODGroupCalulate");
+
         private void OnPreCull(Camera camera)
         {
 #if UNITY_EDITOR
-            //ÔËĞĞµÄÊ±ºò,³¡¾°ÊÓÍ¼Á÷Ê½¼ÓÔØ²»ÉúĞ§
-            if(Application.isPlaying == true &&
-                camera.cameraType == CameraType.SceneView )
+            //è¿è¡Œçš„æ—¶å€™,åœºæ™¯è§†å›¾æµå¼åŠ è½½ä¸ç”Ÿæ•ˆ
+            if (Application.isPlaying == true &&
+                camera.cameraType == CameraType.SceneView)
             {
                 return;
             }
-            //Ö»ÓĞ³¡¾°Ïà»úºÍÖ÷Ïà»úÓĞÓÃ£¬·ÀÖ¹Á÷Ê½µÄÊ±ºòËùÓĞÏà»ú¶¼ÔÚ¸Ä±ä×´Ì¬
+
+            //åªæœ‰åœºæ™¯ç›¸æœºå’Œä¸»ç›¸æœºæœ‰ç”¨ï¼Œé˜²æ­¢æµå¼çš„æ—¶å€™æ‰€æœ‰ç›¸æœºéƒ½åœ¨æ”¹å˜çŠ¶æ€
             if (camera.cameraType != CameraType.SceneView && camera != MainCamera)
                 return;
 #else
@@ -90,7 +98,7 @@ namespace Chess.LODGroupIJob.JobSystem
                 return;
 
             /*
-             * //¸ßÍ¨æçÁú625²âÊÔ£¬Ã¿Ò»Ö¡500¸ö¼ÆËãµÄÏûºÄ²»µ½2ms£¬×¢ÊÍµÄ´úÂë¿ÉÒÔ½µµÍ´úÂëµÄ¼ÆËã´ÎÊı
+             * //é«˜é€šéªé¾™625æµ‹è¯•ï¼Œæ¯ä¸€å¸§500ä¸ªè®¡ç®—çš„æ¶ˆè€—ä¸åˆ°2msï¼Œæ³¨é‡Šçš„ä»£ç å¯ä»¥é™ä½ä»£ç çš„è®¡ç®—æ¬¡æ•°
             bool dirty = false;
             CameraCullData data;
             if(!m_CullData.TryGetValue(camera, out data))
@@ -100,17 +108,17 @@ namespace Chess.LODGroupIJob.JobSystem
             }
             if(data.m_lastCullTime == -1)
             {
-                //µÚÒ»´Î½øÀ´Ë¢ĞÂÒ»ÏÂ
+                //ç¬¬ä¸€æ¬¡è¿›æ¥åˆ·æ–°ä¸€ä¸‹
                 dirty = true;
             }
             else
             {
-                // Ë¢ĞÂ¼ä¸ôÃ»µ½£¬²»×öÈÎºÎ´¦Àí
+                // åˆ·æ–°é—´éš”æ²¡åˆ°ï¼Œä¸åšä»»ä½•å¤„ç†
                 if (Application.isPlaying && data.m_lastCullTime + m_Config.Config.cullInterval > Time.realtimeSinceStartup)
                 {
                     return;
                 }
-                //ÅĞ¶ÏÉãÏñ»ú²ÎÊıÊÇ·ñÓĞ±ä»¯
+                //åˆ¤æ–­æ‘„åƒæœºå‚æ•°æ˜¯å¦æœ‰å˜åŒ–
                 var cameraPosition = camera.transform.position;
                 if (data.m_LastCameraPosition != cameraPosition)
                 {
@@ -122,7 +130,7 @@ namespace Chess.LODGroupIJob.JobSystem
                     data.m_LastFOV = camera.fieldOfView;
                     dirty = true;
                 }
-                //ÅĞ¶ÏLOD¾«¶ÈÉèÖÃÊÇ·ñÓĞ±ä»¯
+                //åˆ¤æ–­LODç²¾åº¦è®¾ç½®æ˜¯å¦æœ‰å˜åŒ–
                 if (data.m_LastLODBias != QualitySettings.lodBias)
                 {
                     data.m_LastLODBias = QualitySettings.lodBias;
@@ -130,9 +138,8 @@ namespace Chess.LODGroupIJob.JobSystem
                 }
             }
             data.m_lastCullTime = Time.realtimeSinceStartup;
-
 #if UNITY_EDITOR
-            //Ã»ÔËĞĞµÄÊ±ºòÊµÊ±Ë¢ĞÂ
+            //æ²¡è¿è¡Œçš„æ—¶å€™å®æ—¶åˆ·æ–°
             if (!Application.isPlaying)
             {
                 dirty = true;
@@ -145,14 +152,14 @@ namespace Chess.LODGroupIJob.JobSystem
             int i = 0;
             var bounds = new NativeArray<Bounds>(count, Allocator.TempJob);
             var result = new NativeArray<Vector2>(count, Allocator.TempJob);
-            
+
             foreach (var item in m_AllLODGroup)
             {
                 Bounds b = item.Value.Bounds;
                 b.center = item.Value.transform.position + b.center;
                 bounds[i++] = b;
             }
-            
+
             var job = new LODCalculateJob()
             {
                 orthographic = camera.orthographic,
@@ -165,12 +172,13 @@ namespace Chess.LODGroupIJob.JobSystem
             };
             JobHandle jobHandle = job.Schedule(count, 30);
             jobHandle.Complete();
-            
+
             i = 0;
             foreach (var item in m_AllLODGroup)
             {
                 item.Value.UpdataState(result[i++], camera.cameraType);
             }
+
             bounds.Dispose();
             result.Dispose();
         }

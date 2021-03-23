@@ -11,6 +11,7 @@ namespace Chess.LODGroupIJob.Streaming
         Failed,
         Succeeded
     }
+
     [Serializable]
     public class Handle
     {
@@ -24,13 +25,26 @@ namespace Chess.LODGroupIJob.Streaming
         private AsyncOperationStatus m_Status;
         private uint m_Id;
         private GameObject m_Obj;
-        #region AssetLoadManagerÊ¹ÓÃ
-        public int Priority { get => m_Priority; }
 
-        public float Distance { get => m_Distance; }
+        #region AssetLoadManagerä½¿ç”¨
 
-        public LOD Controller { get => m_Controller; }
+        public int Priority
+        {
+            get => m_Priority;
+        }
+
+        public float Distance
+        {
+            get => m_Distance;
+        }
+
+        public LOD Controller
+        {
+            get => m_Controller;
+        }
+
         #endregion
+
         public AsyncOperationStatus Status
         {
             get
@@ -39,12 +53,23 @@ namespace Chess.LODGroupIJob.Streaming
                 {
                     return AsyncOperationStatus.None;
                 }
+
                 return m_Status;
             }
         }
 
-        public GameObject Result { get => m_Obj; set => m_Obj = value; }
-        public uint Id { get => m_Id; set => m_Id = value; }
+        public GameObject Result
+        {
+            get => m_Obj;
+            set => m_Obj = value;
+        }
+
+        public uint Id
+        {
+            get => m_Id;
+            set => m_Id = value;
+        }
+
         public Handle(LOD controller, string address, int priority, float distance)
         {
             m_Controller = controller;
@@ -53,7 +78,7 @@ namespace Chess.LODGroupIJob.Streaming
             m_Distance = distance;
         }
 
-        //¿ªÊ¼
+        //ï¿½ï¿½Ê¼
         public bool Start()
         {
             var load = LoadAseetManager<ILoadAsset>.Instance.loadAsset;
@@ -72,7 +97,7 @@ namespace Chess.LODGroupIJob.Streaming
             return true;
         }
 
-        //½áÊø
+        //ï¿½ï¿½ï¿½ï¿½
         public void UnloadAsset()
         {
             if (m_StartLoad == true)

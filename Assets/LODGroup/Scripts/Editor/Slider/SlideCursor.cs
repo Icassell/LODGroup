@@ -1,19 +1,22 @@
 using UnityEditor;
 using UnityEngine;
+
 namespace Chess.LODGroupIJob.Slider
 {
     public class SlideCursor
     {
-        //ÊÇ·ñ¿ªÊ¼»¬¶¯
+        //æ˜¯å¦å¼€å§‹æ»‘åŠ¨
         bool m_Slide = false;
 
-        //³õÊ¼Î»ÖÃÆ«²î
+        //åˆå§‹ä½ç½®åå·®
         float m_XOffset = -13;
 
-        //Ö¸ÕëÔÚ¿òÄÚÎ»ÖÃ[0-1]
+        //æŒ‡é’ˆåœ¨æ¡†å†…ä½ç½®[0-1]
         float m_RelativeHeight = 0.9f;
-        //Ïà»úIcon
+
+        //ç›¸æœºIcon
         static Texture2D s_CameraIcon;
+
         public static Texture2D S_CameraFrame
         {
             get
@@ -26,19 +29,19 @@ namespace Chess.LODGroupIJob.Slider
 
         public float RelativeHeight
         {
-            get
-            {
-               return Mathf.Pow(1 - m_RelativeHeight,2);
-            }
+            get { return Mathf.Pow(1 - m_RelativeHeight, 2); }
             set
             {
                 m_RelativeHeight = Mathf.Clamp(value, 0, 1);
-                if(!m_Slide)
+                if (!m_Slide)
                     m_RelativeHeight = 1 - Mathf.Sqrt(m_RelativeHeight);
-                
             }
         }
-        public bool Slide { get => m_Slide; }
+
+        public bool Slide
+        {
+            get => m_Slide;
+        }
 
         public void Updata(Event curEvent)
         {
@@ -46,13 +49,13 @@ namespace Chess.LODGroupIJob.Slider
                 return;
             switch (curEvent.type)
             {
-                //´¦ÀíÊó±ê³öÁËInspector·¶Î§
+                //å¤„ç†é¼ æ ‡å‡ºäº†InspectorèŒƒå›´
                 case EventType.MouseLeaveWindow:
                     m_Slide = false;
                     break;
-               
             }
         }
+
         public void Draw(Rect sliderBarPosition)
         {
             if (sliderBarPosition.x == 0 && sliderBarPosition.y == 0)
@@ -60,45 +63,48 @@ namespace Chess.LODGroupIJob.Slider
 
             Event evt = Event.current;
 
-            //¸ù¾İ°Ù·Ö±È»¹Ô­Ö¸ÕëÎ»ÖÃ
-                
+            //æ ¹æ®ç™¾åˆ†æ¯”è¿˜åŸæŒ‡é’ˆä½ç½®
+
             float pos = sliderBarPosition.width * m_RelativeHeight + sliderBarPosition.x;
             var slideRect = new Rect(pos + m_XOffset, sliderBarPosition.y - sliderBarPosition.height + 5, 40, 25);
 
             switch (evt.type)
             {
                 case EventType.MouseDown:
-                    if(slideRect.Contains(evt.mousePosition))
+                    if (slideRect.Contains(evt.mousePosition))
                     {
                         m_Slide = true;
                     }
+
                     break;
                 case EventType.MouseDrag:
-                    if(m_Slide)
+                    if (m_Slide)
                     {
-                        //×óµ½ÓÒ£¬¼ÆËãÖ¸ÕëÔÚ¿òÄÚµÄ°Ù·Ö±È
+                        //å·¦åˆ°å³ï¼Œè®¡ç®—æŒ‡é’ˆåœ¨æ¡†å†…çš„ç™¾åˆ†æ¯”
                         float r = (evt.mousePosition.x - sliderBarPosition.x) / sliderBarPosition.width;
-                        if(r < 0.99f)
+                        if (r < 0.99f)
                         {
                             RelativeHeight = r;
                         }
+
                         evt.Use();
                     }
+
                     break;
                 case EventType.MouseUp:
                     m_Slide = false;
-     
+
                     break;
             }
-            //Ïà»úICON
+
+            //ç›¸æœºICON
             GUI.Label(slideRect, S_CameraFrame);
-            //Ö¸Õë
+            //æŒ‡é’ˆ
             slideRect = new Rect(slideRect.x + 12.5f, sliderBarPosition.y, 1.4f, sliderBarPosition.height);
             EditorGUI.DrawRect(slideRect, new Color(0.35f, 0.35f, 0.35f, 1));
-            //ÏÔÊ¾°Ù·Ö±È
-            slideRect = new Rect(slideRect.x , sliderBarPosition.y + sliderBarPosition.height, 35, 20);
-            EditorGUI.LabelField(slideRect, string.Format("{0}%", (int)(RelativeHeight * 100.0f)));
-        } 
+            //æ˜¾ç¤ºç™¾åˆ†æ¯”
+            slideRect = new Rect(slideRect.x, sliderBarPosition.y + sliderBarPosition.height, 35, 20);
+            EditorGUI.LabelField(slideRect, string.Format("{0}%", (int) (RelativeHeight * 100.0f)));
+        }
     }
 }
-

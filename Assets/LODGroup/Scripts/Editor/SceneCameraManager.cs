@@ -2,6 +2,7 @@ using Chess.LODGroupIJob.Slider;
 using Chess.LODGroupIJob.SpaceManager;
 using UnityEditor;
 using UnityEngine;
+
 namespace Chess.LODGroupIJob
 {
     public class SceneCameraManager
@@ -16,7 +17,10 @@ namespace Chess.LODGroupIJob
             m_SlideCursor = slideCursor;
         }
 
-        public SceneView SceneView { get => SceneView.lastActiveSceneView;}
+        public SceneView SceneView
+        {
+            get => SceneView.lastActiveSceneView;
+        }
 
         public void OnInspectorGUI()
         {
@@ -24,9 +28,9 @@ namespace Chess.LODGroupIJob
                 return;
             if (m_SlideCursor.Slide)
             {
-                //在拖动滑动条上的相机
+                //鍦ㄦ嫋鍔ㄦ粦鍔ㄦ潯涓婄殑鐩告満
                 Camera camera = SceneView.camera;
-    
+
                 QuadTreeSpaceManager.SettingReCamera(SceneView.camera, out m_PreRelative);
                 float distance = QuadTreeSpaceManager.GetReDistance(m_LODGroup.Bounds, m_PreRelative, m_SlideCursor.RelativeHeight);
 
@@ -37,11 +41,9 @@ namespace Chess.LODGroupIJob
             }
             else
             {
-             
                 QuadTreeSpaceManager.SettingCamera(m_LODGroup.transform, SceneView.camera, out m_PreRelative);
                 m_SlideCursor.RelativeHeight = QuadTreeSpaceManager.GetRelativeHeight(m_LODGroup.Bounds, m_LODGroup.transform.position, m_PreRelative, SceneView.camera.transform.position);
             }
         }
     }
 }
-

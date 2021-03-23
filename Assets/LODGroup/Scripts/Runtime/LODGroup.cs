@@ -3,27 +3,45 @@ using UnityEngine;
 using UnityEngine.Events;
 #if UNITY_EDITOR
 using UnityEditor;
+
 #endif
 namespace Chess.LODGroupIJob
 {
     [ExecuteAlways]
     public class LODGroup : LODGroupBase
     {
-        //»ùÓÚµ±Ç°ÎïÌåµÄ×ø±êÎ»ÖÃ
-        public Vector3 localReferencePoint { get => m_Bounds.center; set => m_Bounds.center = value; }
-        //LODÊıÁ¿
-        public int lodCount { get => m_LODList == null ? 0 : m_LODList.Count; }
-        //LODGroup°üÎ§ºĞ´óĞ¡£¬°üÎ§ºĞÓÀÔ¶¶¼ÊÇÕı·½Ìå
-        public float size { get => Mathf.Max(m_Bounds.size); }
+        //åŸºäºå½“å‰ç‰©ä½“çš„åæ ‡ä½ç½®
+        public Vector3 localReferencePoint
+        {
+            get => m_Bounds.center;
+            set => m_Bounds.center = value;
+        }
 
-        public Bounds Bounds { get => m_Bounds; set => m_Bounds = value; }
+        //LODæ•°é‡
+        public int lodCount
+        {
+            get => m_LODList == null ? 0 : m_LODList.Count;
+        }
 
-        //µ±Ç°ÆÁÄ»Õ¼Î»ÖÃ[0-1]
+        //LODGroupåŒ…å›´ç›’å¤§å°ï¼ŒåŒ…å›´ç›’æ°¸è¿œéƒ½æ˜¯æ­£æ–¹ä½“
+        public float size
+        {
+            get => Mathf.Max(m_Bounds.size);
+        }
+
+        public Bounds Bounds
+        {
+            get => m_Bounds;
+            set => m_Bounds = value;
+        }
+
+        //å½“å‰å±å¹•å ä½ç½®[0-1]
         private float m_ScreenRelative;
-        //µ±Ç°lod
+
+        //å½“å‰lod
         private int m_CurrentLOD = 0;
 
-        //ÓĞlod¼ÓÔØÍêºóµ÷ÓÃ£¬²ÎÊıÊÇ¼ÓÔØÍêµÄÄÇ¸öLOD
+        //æœ‰lodåŠ è½½å®Œåè°ƒç”¨ï¼Œå‚æ•°æ˜¯åŠ è½½å®Œçš„é‚£ä¸ªLOD
         private UnityAction<LOD> m_LoadedAction;
 
         private void Awake()
@@ -36,7 +54,8 @@ namespace Chess.LODGroupIJob
                 lod.CurrentState = State.None;
             }*/
         }
-        //ÉèÖÃLOD×é
+
+        //è®¾ç½®LODç»„
         public void SetLODs(LOD[] lods)
         {
             if (lods != null && lods.Length > 0)
@@ -46,15 +65,15 @@ namespace Chess.LODGroupIJob
                 m_LODList.Clear();
                 m_LODList.AddRange(lods);
             }
-            
         }
-        //»ñµÃLOD×é
+
+        //è·å¾—LODç»„
         public LOD[] GetLODs()
         {
             return m_LODList.ToArray();
         }
-     
-        //×´Ì¬¸Ä±ä
+
+        //çŠ¶æ€æ”¹å˜
         public void UpdataState(Vector2 relativeAndDistance, CameraType type)
         {
             m_ScreenRelative = relativeAndDistance.x;
@@ -72,6 +91,7 @@ namespace Chess.LODGroupIJob
                     break;
                 }
             }
+
             if (!select)
             {
                 m_CurrentLOD = -1;
@@ -80,25 +100,25 @@ namespace Chess.LODGroupIJob
 #if UNITY_EDITOR
             if (!Application.isPlaying && UnityEditor.Selection.gameObjects.Length != 0)
             {
-                //±»Ñ¡ÖĞµÄÎïÌå²»Òş²Ø
+                //è¢«é€‰ä¸­çš„ç‰©ä½“ä¸éšè—
                 foreach (var obj in UnityEditor.Selection.gameObjects)
                 {
                     foreach (var lod in m_LODList)
                     {
-                        if(lod.Renderers != null)
-                        foreach (var rd in lod.Renderers)
-                        {
-                            if (rd != null && obj == rd.gameObject)
+                        if (lod.Renderers != null)
+                            foreach (var rd in lod.Renderers)
                             {
-                                rd.enabled = true;
+                                if (rd != null && obj == rd.gameObject)
+                                {
+                                    rd.enabled = true;
+                                }
                             }
-                        }
                     }
-                    
                 }
             }
 #endif
         }
+
         public void OnDisableAllLOD(CameraType type = CameraType.Game)
         {
             int i = -1;
@@ -111,6 +131,7 @@ namespace Chess.LODGroupIJob
                 lod.SetState(false, this, 0, type);
             }
         }
+
         public void RecalculateBounds()
         {
             List<Renderer> all = new List<Renderer>();
@@ -121,6 +142,7 @@ namespace Chess.LODGroupIJob
                     all.AddRange(lod.Renderers);
                 }
             }
+
             UnityEngine.Bounds bounds;
             if (all.Count <= 0)
             {
@@ -133,11 +155,13 @@ namespace Chess.LODGroupIJob
                 {
                     bounds.Encapsulate(all[i].bounds);
                 }
-                //Ïà¶ÔÓÚµ±Ç°½ÚµãµÄÎ»ÖÃ
+
+                //ç›¸å¯¹äºå½“å‰èŠ‚ç‚¹çš„ä½ç½®
                 bounds.center = bounds.center - transform.position;
                 var maxSize = Mathf.Max(Mathf.Max(bounds.size.x, bounds.size.y), bounds.size.z);
-                bounds.size = Vector3.one * maxSize; 
+                bounds.size = Vector3.one * maxSize;
             }
+
             Bounds = new Bounds(bounds);
         }
 #if UNITY_EDITOR
@@ -172,13 +196,13 @@ namespace Chess.LODGroupIJob
             screenY.Normalize();
 
             float halfSize = 0.5f * size;
-            //ÉÏ
+            //ä¸Š
             Gizmos.DrawLine(pos - (screenX - screenY) * halfSize, pos + (screenX + screenY) * halfSize);
-            //×ó
+            //ä¸‹
             Gizmos.DrawLine(pos - (screenX + screenY) * halfSize, pos - (screenX - screenY) * halfSize);
-            //ÓÒ
+            //å·¦
             Gizmos.DrawLine(pos + (screenX - screenY) * halfSize, pos + (screenX + screenY) * halfSize);
-            //ÏÂ
+            //å³
             Vector3 v1 = pos - (screenX + screenY) * halfSize;
             Vector3 v2 = pos + (screenX - screenY) * halfSize;
             Gizmos.DrawLine(v1, v2);
@@ -186,9 +210,7 @@ namespace Chess.LODGroupIJob
             pos = v1 + Vector3.Distance(v1, v2) * screenX / 2.1f;
             Handles.Label(pos, show, Style);
             Gizmos.color = tempColor;
-
         }
 #endif
     }
 }
-
