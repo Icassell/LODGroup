@@ -8,9 +8,9 @@ using UnityEngine;
 
 public class SimpleCameraController : MonoBehaviour
 {
-    #region Ïà»ú×´Ì¬
+    #region ç›¸æœºçŠ¶æ€
     /// <summary>
-    /// Ïà»ú×´Ì¬
+    /// ç›¸æœºçŠ¶æ€
     /// </summary>
     class CameraState
     {
@@ -62,21 +62,21 @@ public class SimpleCameraController : MonoBehaviour
     CameraState m_TargetCameraState = new CameraState();
     CameraState m_InterpolatingCameraState = new CameraState();
 
-    [Header("Movement Settings ÒÆ¶¯ÉèÖÃ")]
-    [Tooltip("Exponential boost factor on translation, controllable by mouse wheel. Æ½ÒÆµÄÖ¸ÊıÔöÇ¿Òò×Ó£¬¿ÉÍ¨¹ıÊó±ê¹öÂÖ¿ØÖÆ¡£")]
+    [Header("Movement Settings ç§»åŠ¨è®¾ç½®")]
+    [Tooltip("Exponential boost factor on translation, controllable by mouse wheel. å¹³ç§»çš„æŒ‡æ•°å¢å¼ºå› å­ï¼Œå¯é€šè¿‡é¼ æ ‡æ»šè½®æ§åˆ¶ã€‚")]
     public float boost = 3.5f;
 
-    [Tooltip("Time it takes to interpolate camera position 99% of the way to the target. ½«Ïà»úÎ»ÖÃ²åÖµµ½Ä¿±êÎ»ÖÃ99%ËùĞèµÄÊ±¼ä¡£"), Range(0.001f, 1f)]
+    [Tooltip("Time it takes to interpolate camera position 99% of the way to the target. å°†ç›¸æœºä½ç½®æ’å€¼åˆ°ç›®æ ‡ä½ç½®99%æ‰€éœ€çš„æ—¶é—´ã€‚"), Range(0.001f, 1f)]
     public float positionLerpTime = 0.2f;
 
-    [Header("Rotation Settings Ğı×ªÉè¶¨")]
-    [Tooltip("X = Change in mouse position. ¸Ä±äÊó±êÎ»ÖÃ¡£\nY = Multiplicative factor for camera rotation. Ïà»úĞı×ªµÄ³ËĞÔÒò×Ó¡£")]
+    [Header("Rotation Settings æ—‹è½¬è®¾å®š")]
+    [Tooltip("X = Change in mouse position. æ”¹å˜é¼ æ ‡ä½ç½®ã€‚\nY = Multiplicative factor for camera rotation. ç›¸æœºæ—‹è½¬çš„ä¹˜æ€§å› å­ã€‚")]
     public AnimationCurve mouseSensitivityCurve = new AnimationCurve(new Keyframe(0f, 0.5f, 0f, 5f), new Keyframe(1f, 2.5f, 0f, 0f));
 
-    [Tooltip("Time it takes to interpolate camera rotation 99% of the way to the target. ²åÖµÏà»úĞı×ª99%µ½Ä¿±êËùĞèµÄÊ±¼ä¡£"), Range(0.001f, 1f)]
+    [Tooltip("Time it takes to interpolate camera rotation 99% of the way to the target. æ’å€¼ç›¸æœºæ—‹è½¬99%åˆ°ç›®æ ‡æ‰€éœ€çš„æ—¶é—´ã€‚"), Range(0.001f, 1f)]
     public float rotationLerpTime = 0.01f;
 
-    [Tooltip("Whether or not to invert our Y axis for mouse input to rotation. ÊÇ·ñ½«Êó±êÊäÈëµÄYÖá·´×ªÎªĞı×ª¡£")]
+    [Tooltip("Whether or not to invert our Y axis for mouse input to rotation. æ˜¯å¦å°†é¼ æ ‡è¾“å…¥çš„Yè½´åè½¬ä¸ºæ—‹è½¬ã€‚")]
     public bool invertY = false;
 
     void OnEnable()
@@ -121,7 +121,7 @@ public class SimpleCameraController : MonoBehaviour
 
 #if ENABLE_LEGACY_INPUT_MANAGER
 
-        // Exit Sample °´ÏÂEsc¼üÍË³öÓÎÏ·
+        // Exit Sample æŒ‰ä¸‹Escé”®é€€å‡ºæ¸¸æˆ
         if (Input.GetKey(KeyCode.Escape))
         {
             Application.Quit();
@@ -129,20 +129,20 @@ public class SimpleCameraController : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }
-        // Hide and lock cursor when right mouse button pressed °´ÏÂÊó±êÓÒ¼üÊ±Òş²Ø²¢Ëø¶¨¹â±ê
+        // Hide and lock cursor when right mouse button pressed æŒ‰ä¸‹é¼ æ ‡å³é”®æ—¶éšè—å¹¶é”å®šå…‰æ ‡
         if (Input.GetMouseButtonDown(1))
         {
             Cursor.lockState = CursorLockMode.Locked;
         }
 
-        // Unlock and show cursor when right mouse button released ËÉ¿ªÊó±êÓÒ¼üÊ±½âËø²¢ÏÔÊ¾¹â±ê
+        // Unlock and show cursor when right mouse button released æ¾å¼€é¼ æ ‡å³é”®æ—¶è§£é”å¹¶æ˜¾ç¤ºå…‰æ ‡
         if (Input.GetMouseButtonUp(1))
         {
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
         }
 
-        // Rotation Ğı×ª
+        // Rotation æ—‹è½¬
         if (Input.GetMouseButton(1))
         {
             var mouseMovement = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y") * (invertY ? 1 : -1));
@@ -153,28 +153,28 @@ public class SimpleCameraController : MonoBehaviour
             m_TargetCameraState.pitch += mouseMovement.y * mouseSensitivityFactor;
         }
 
-        // Translation ÒÆ¶¯
+        // Translation ç§»åŠ¨
         translation = GetInputTranslationDirection() * Time.deltaTime;
 
-        // Speed up movement when shift key held °´×¡shift¼üÊ±¼ÓËÙÒÆ¶¯
+        // Speed up movement when shift key held æŒ‰ä½shifté”®æ—¶åŠ é€Ÿç§»åŠ¨
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            //Ô­ËÙ¶È*10Îª°´ÏÂShiftºóµÄËÙ¶È
+            //åŸé€Ÿåº¦*10ä¸ºæŒ‰ä¸‹Shiftåçš„é€Ÿåº¦
             translation *= 10.0f;
         }
 
-        // Modify movement by a boost factor (defined in Inspector and modified in play mode through the mouse scroll wheel) Í¨¹ıÔöÇ¿Òò×ÓĞŞ¸ÄÒÆ¶¯£¨ÔÚ¼ì²éÆ÷ÖĞ¶¨Òå£¬Í¨¹ıÊó±ê¹öÂÖÔÚ²¥·ÅÄ£Ê½ÏÂĞŞ¸Ä£©
+        // Modify movement by a boost factor (defined in Inspector and modified in play mode through the mouse scroll wheel) é€šè¿‡å¢å¼ºå› å­ä¿®æ”¹ç§»åŠ¨ï¼ˆåœ¨æ£€æŸ¥å™¨ä¸­å®šä¹‰ï¼Œé€šè¿‡é¼ æ ‡æ»šè½®åœ¨æ’­æ”¾æ¨¡å¼ä¸‹ä¿®æ”¹ï¼‰
         boost += Input.mouseScrollDelta.y * 0.2f;
         translation *= Mathf.Pow(2.0f, boost);
 
 #elif USE_INPUT_SYSTEM
-   // TODO: make the new input system work Ê¹ĞÂµÄÊäÈëÏµÍ³Õı³£¹¤×÷
+   // TODO: make the new input system work ä½¿æ–°çš„è¾“å…¥ç³»ç»Ÿæ­£å¸¸å·¥ä½œ
 #endif
 
         m_TargetCameraState.Translate(translation);
 
-        // Framerate-independent interpolation Ö¡ÂÊÎŞ¹Ø²åÖµ
-        // Calculate the lerp amount, such that we get 99% of the way to our target in the specified time ¼ÆËãlerpµÄÊıÁ¿£¬ÕâÑùÎÒÃÇ¾Í¿ÉÒÔÔÚÖ¸¶¨µÄÊ±¼äÄÚµ½´ïÄ¿±êµÄ99%
+        // Framerate-independent interpolation å¸§ç‡æ— å…³æ’å€¼
+        // Calculate the lerp amount, such that we get 99% of the way to our target in the specified time è®¡ç®—lerpçš„æ•°é‡ï¼Œè¿™æ ·æˆ‘ä»¬å°±å¯ä»¥åœ¨æŒ‡å®šçš„æ—¶é—´å†…åˆ°è¾¾ç›®æ ‡çš„99%
         var positionLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / positionLerpTime) * Time.deltaTime);
         var rotationLerpPct = 1f - Mathf.Exp((Mathf.Log(1f - 0.99f) / rotationLerpTime) * Time.deltaTime);
         m_InterpolatingCameraState.LerpTowards(m_TargetCameraState, positionLerpPct, rotationLerpPct);

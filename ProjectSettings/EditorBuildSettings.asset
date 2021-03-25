@@ -4,5 +4,19 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
-  m_configObjects: {}
+  m_Scenes:
+  - enabled: 0
+    path: Assets/LODGroup/Examples/01Base.unity
+    guid: 8419e2c2ec4a74c45905db839928e80f
+  - enabled: 0
+    path: Assets/LODGroup/Examples/02Streaming.unity
+    guid: 0a2f96578682f494681dbf19a3b08331
+  - enabled: 0
+    path: Assets/LODGroup/Examples/03Blend.unity
+    guid: 2acfa7a4b89750048a6adf2363836a75
+  - enabled: 0
+    path: Assets/LODGroup/Examples/04StreamExample.unity
+    guid: 8c922daa56aba48448e211717cbc2380
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 2c168fe39866ed845b17182cab9021f3, type: 2}
+    com.unity.input.settings: {fileID: 11400000, guid: a1ce8c14c349ca847bfa274df79521bc, type: 2}

@@ -12,6 +12,20 @@
       "source": "builtin",
       "dependencies": {}
     },
+    "com.unity.addressables": {
+      "version": "1.17.13",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.scriptablebuildpipeline": "1.17.0",
+        "com.unity.modules.assetbundle": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.modules.jsonserialize": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.unitywebrequestassetbundle": "1.0.0"
+      },
+      "url": "https://packages.unity.cn"
+    },
     "com.unity.ads": {
       "version": "3.6.1",
       "depth": 0,
@@ -46,6 +60,16 @@
       "dependencies": {},
       "url": "https://packages.unity.cn"
     },
+    "com.unity.collections": {
+      "version": "0.15.0-preview.21",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework.performance": "2.3.1-preview",
+        "com.unity.burst": "1.4.1"
+      },
+      "url": "https://packages.unity.cn"
+    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,
@@ -78,9 +102,33 @@
       "dependencies": {},
       "url": "https://packages.unity.cn"
     },
+    "com.unity.inputsystem": {
+      "version": "1.0.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.cn"
+    },
+    "com.unity.jobs": {
+      "version": "0.8.0-preview.23",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.collections": "0.15.0-preview.21",
+        "com.unity.mathematics": "1.2.1"
+      },
+      "url": "https://packages.unity.cn"
+    },
     "com.unity.mathematics": {
       "version": "1.2.1",
       "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.cn"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "2.0.0-preview",
+      "depth": 3,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.cn"
@@ -94,6 +142,13 @@
       },
       "url": "https://packages.unity.cn"
     },
+    "com.unity.scriptablebuildpipeline": {
+      "version": "1.17.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.cn"
+    },
     "com.unity.test-framework": {
       "version": "1.1.22",
       "depth": 0,
@@ -102,6 +157,16 @@
         "com.unity.ext.nunit": "1.0.6",
         "com.unity.modules.imgui": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0"
+      },
+      "url": "https://packages.unity.cn"
+    },
+    "com.unity.test-framework.performance": {
+      "version": "2.3.1-preview",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.test-framework": "1.1.0",
+        "com.unity.nuget.newtonsoft-json": "2.0.0-preview"
       },
       "url": "https://packages.unity.cn"
     },
