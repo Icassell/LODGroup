@@ -1,5 +1,6 @@
 using UnityEngine;
 using Chess.LODGroupIJob.Streaming;
+using UnityEngine.AddressableAssets;
 
 namespace Chess.LODGroupIJob
 {
@@ -60,7 +61,10 @@ namespace Chess.LODGroupIJob
                     return;
                 }
 
-
+                // var go  =Addressables.InstantiateAsync(h.Result, lodGroup.transform, false);
+                //
+                //
+                // Debug.Log(go.Result.name);
                 GameObject gameObject = GameObject.Instantiate(h.Result, lodGroup.transform, false);
                 h.Result = gameObject;
                 gameObject.transform.parent = lodGroup.transform;

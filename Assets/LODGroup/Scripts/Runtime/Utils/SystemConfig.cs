@@ -71,7 +71,7 @@ namespace Chess.LODGroupIJob.Utils
         void SaveUniqueConfigAsset(Object asset)
         {
 #if UNITY_EDITOR
-            var directory = string.Format("{0}{1}", "Assets/LODGroup/Resources/", s_ConfigAdress);
+            var directory = string.Format("{0}{1}", "Assets/LODGroup/Art/", s_ConfigAdress);
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
 

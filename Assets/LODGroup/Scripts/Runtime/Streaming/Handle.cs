@@ -78,7 +78,7 @@ namespace Chess.LODGroupIJob.Streaming
             m_Distance = distance;
         }
 
-        //��ʼ
+        
         public bool Start()
         {
             var load = LoadAseetManager<ILoadAsset>.Instance.loadAsset;
@@ -97,7 +97,7 @@ namespace Chess.LODGroupIJob.Streaming
             return true;
         }
 
-        //����
+        
         public void UnloadAsset()
         {
             if (m_StartLoad == true)

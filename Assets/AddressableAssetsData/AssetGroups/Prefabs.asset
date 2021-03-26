@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Prefabs
+  m_EditorClassIdentifier: 
+  m_GroupName: Prefabs
+  m_Data:
+    m_SerializedData: []
+  m_GUID: d0537d8b9a8d2ff48a9e8adab9867dcf
+  m_SerializeEntries:
+  - m_GUID: f81791ca29d737f449c83d1d8e7ad317
+    m_Address: Assets/LODGroup/Art/LODGroup2021_3_16 19_09_482.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 3285889351576162728, guid: f81791ca29d737f449c83d1d8e7ad317, type: 3}
+    m_TargetAsset: {fileID: 3285889351576162728, guid: f81791ca29d737f449c83d1d8e7ad317, type: 3}
+  - m_GUID: 28b9ab8ba75230e4886ca01ef876418d
+    m_Address: Assets/LODGroup/Art/LODGroup2021_3_16 19_09_481.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2295840417509870190, guid: 28b9ab8ba75230e4886ca01ef876418d, type: 3}
+    m_TargetAsset: {fileID: 2295840417509870190, guid: 28b9ab8ba75230e4886ca01ef876418d, type: 3}
+  - m_GUID: 62b4d0129603a744481e53938e5e3e26
+    m_Address: Assets/LODGroup/Art/LODGroup2021_3_16 19_09_480.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 692264461019739142, guid: 62b4d0129603a744481e53938e5e3e26, type: 3}
+    m_TargetAsset: {fileID: 692264461019739142, guid: 62b4d0129603a744481e53938e5e3e26, type: 3}
+  - m_GUID: 35f2f0ab6f142c445873556404b87a46
+    m_Address: Assets/LODGroup/Art/LODGroup2021_3_15 22_02_583.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 3107947097276151447, guid: 35f2f0ab6f142c445873556404b87a46, type: 3}
+    m_TargetAsset: {fileID: 3107947097276151447, guid: 35f2f0ab6f142c445873556404b87a46, type: 3}
+  - m_GUID: 44732c997cf8d5f4cbe7be6e11230e20
+    m_Address: Assets/LODGroup/Art/LODGroup2021_3_15 22_02_582.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 3751337233890533768, guid: 44732c997cf8d5f4cbe7be6e11230e20, type: 3}
+    m_TargetAsset: {fileID: 3751337233890533768, guid: 44732c997cf8d5f4cbe7be6e11230e20, type: 3}
+  - m_GUID: c5b0d44327fceca4587b55ba670fdc38
+    m_Address: Assets/LODGroup/Art/LODGroup2021_3_15 22_02_581.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 4455091094002755262, guid: c5b0d44327fceca4587b55ba670fdc38, type: 3}
+    m_TargetAsset: {fileID: 4455091094002755262, guid: c5b0d44327fceca4587b55ba670fdc38, type: 3}
+  - m_GUID: cc7d4b64ab8ee684d954c08964f44005
+    m_Address: Assets/LODGroup/Art/LODGroup2021_3_15 22_02_580.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 893f1f083be67ec4b9af3e838b69536a, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: fb9c194968e67084fae440647662ce82, type: 2}
+    - {fileID: 11400000, guid: 100902c14ee4a7948a9f83d9ccbdc9c1, type: 2}

@@ -2,6 +2,7 @@ using Chess.LODGroupIJob.Interface;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Chess.LODGroupIJob.LoadAsset
 {
@@ -31,10 +32,13 @@ namespace Chess.LODGroupIJob.LoadAsset
         {
             id++;
             //用Resources测试
-            address = address.Replace("Assets/LODGroup/Resources/", "");
-            address = address.Replace(".prefab", "");
-            var request = Resources.LoadAsync<GameObject>(address);
-            request.completed += h => { action?.Invoke(id, request.asset as GameObject); };
+            // address = address.Replace("Assets/LODGroup/Resources/", "");
+            // address = address.Replace(".prefab", "");
+            //  var request = Resources.LoadAsync<GameObject>(address);
+
+            //用Addr测试
+            var request = Addressables.LoadAssetAsync<GameObject>(address);
+            request.Completed += h => { action?.Invoke(id, request.Result as GameObject); };
             m_AllObjs.Add(id);
             return id;
         }
